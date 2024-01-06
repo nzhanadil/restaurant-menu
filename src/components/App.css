@@ -1,0 +1,65 @@
+button {
+    border: none;
+    font-size: 15px;
+    padding: 7px 14px;
+}
+/* RemoveFromCart */
+.cart-button-div button{
+    background-color: red;
+    color: white;
+}
+.cart-button-div p{
+    font-weight: bold;
+    display: inline;
+}
+/* categories */
+.categories .cart {
+    margin-left: 20px;
+    background-color: red;
+    color: white;
+}
+.categories .selected, .add-to-cart {
+    background-color: green;
+    color: white;
+}
+/* search */
+.searchBar input {
+    width: 85%;
+    height: 80%;
+}
+
+.clear-btn {
+    border: none;
+    width: 11%;
+    height: 100%;
+    background-color: rgb(228, 165, 165);
+    color: white;
+}
+
+.searchBar {
+    margin: auto;
+    margin-top: 10px;
+    width: 250px;
+    height: 25px;
+    text-align: left;
+}
+
+.item{
+    display: grid;
+    grid-template-columns: 2fr 8fr;
+    border: 1px solid rgb(221, 218, 218);
+    margin: 5px;
+    border-radius: 5px;
+    padding: 7px 10px;
+}
+
+.container{
+    margin: 20px;
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    border: 1px solid rgb(221, 218, 218);
+    gap: 5px;
+}
+.remove-from-cart:hover{
+    background-color: rgb(223, 3, 3);
+}
