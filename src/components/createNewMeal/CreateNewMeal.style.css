@@ -1,0 +1,10 @@
+.create-new-meal-container {
+    width: 400px;
+    margin: auto;
+}
+.create-new-meal-form {
+    text-align: left;
+}
+.create-new-meal-form input, .create-new-meal-form button{
+    display: block;
+}

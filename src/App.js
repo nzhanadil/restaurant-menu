@@ -3,20 +3,27 @@ import {data} from './data.js'
 import Search from './components/Search.jsx';
 import Categories from './components/Categories.jsx';
 import Container from './components/Container.jsx';
-import CreateNewMeal from './components/CreateNewMeal.jsx';
+import CreateNewMeal from './components/createNewMeal/CreateNewMeal.jsx';
 import './App.css'
 import './components/App.css'
+
+import Categories1 from './components/Categories1.jsx';
 
 export default class App extends Component {
   constructor(){
     super();
     this.state = {
+      categories: [],
       searchText: '',
       selectedCategory: 'all',
       products: data,
       cart: [],
       cartSize: 0
     }
+  }
+
+  handleCategories = (arr) =>{
+    this.setState({categories: arr})
   }
 
   setSelectedCategory = (category) => {
@@ -62,31 +69,47 @@ export default class App extends Component {
 
     this.setState({cart: cart, cartSize: this.state.cartSize+=1})
   }
-  handleInput = (e) => {
-      const file = e.target.files[0];
 
-      const reader = new FileReader();
+  handleCreateNewMeal = (meal) => {
 
-      reader.addEventListener('load', ()=>{
-        console.log(reader.result)
-      })
+    meal = JSON.parse(JSON.stringify(meal));
 
-      reader.readAsDataURL(file);
+    let products = JSON.parse(JSON.stringify(this.state.products));
 
+    console.log(this.state.products)
+    products.push(meal)
+    meal.id=meal.title;
+    this.setState({products: products})
+    console.log(meal)
+  }
 
+  getUniqueCategories = (data) => {
+    const array = ['all']
+    for(let arr of data){
+        if(!array.includes(arr.category))
+            array.push(arr.category)       
+    }
+    array.push('cart')
+    return array
+  }
+
+  componentDidMount(){
+    this.setState({categories: ['all', ...this.getUniqueCategories(this.state.products), 'cart']})
   }
 
 
+
   render() {
-    const {searchText, selectedCategory, products, cartSize} = this.state
+    const {searchText, selectedCategory, products, cartSize, categories} = this.state
     return (
       <>
-        <input type='file' id='fileInput' onChange={(e) => this.handleInput(e)}/>
 
-        <CreateNewMeal />
+        <CreateNewMeal handleCreateNewMeal={this.handleCreateNewMeal}/>
 
         <h1>Restaurant Menu</h1>  
-        <Categories setSelectedCategory={this.setSelectedCategory} selectedCategory={selectedCategory} products={products} cartSize={cartSize}/>
+        {/* <Categories setSelectedCategory={this.setSelectedCategory} selectedCategory={selectedCategory} products={products} cartSize={cartSize}/> */}
+        
+        <Categories1 setSelectedCategory={this.setSelectedCategory} selectedCategory={selectedCategory} categories={this.getUniqueCategories(products)} cartSize={cartSize} />
         <Search setSearchText={this.setSearchText} searchText={searchText}/>
 
         <Container data={this.state} handleAddToCart={this.handleAddToCart} handleRemoveFromCart={this.handleRemoveFromCart}/>
