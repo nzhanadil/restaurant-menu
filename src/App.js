@@ -50,7 +50,6 @@ export default class App extends Component {
     }
     
     this.setState({cart: cart, cartSize: this.state.cartSize-=1})
-
   }
 
   handleAddToCart = (meal) => {
@@ -96,8 +95,6 @@ export default class App extends Component {
   componentDidMount(){
     this.setState({categories: ['all', ...this.getUniqueCategories(this.state.products), 'cart']})
   }
-
-
 
   render() {
     const {searchText, selectedCategory, products, cartSize, categories} = this.state
