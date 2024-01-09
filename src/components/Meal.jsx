@@ -4,7 +4,7 @@ import AddToCart from './AddToCart'
 
 export default class Meal extends Component {
   render() {
-    const {data, handleClick} = this.props
+    const {data, handleClick, handleDelete} = this.props
     const {src, title, price, desc} = data
 
     return (
@@ -15,7 +15,7 @@ export default class Meal extends Component {
         <div className='item-right'>
             <p><strong>{title}</strong>{` $${price}`}</p>
             <p>{desc}</p>
-            {data.hasOwnProperty('quantity') ? <RemoveFromCart handleRemoveFromCart={handleClick} meal={data}/> : <AddToCart handleAddToCart={handleClick} meal={data}/>}
+            {data.hasOwnProperty('quantity') ? <RemoveFromCart handleRemoveFromCart={handleClick} meal={data}/> : <AddToCart handleAddToCart={handleClick} handleDelete={handleDelete} meal={data}/>}
         </div>
       </div>
     )

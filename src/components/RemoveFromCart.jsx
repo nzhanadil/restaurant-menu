@@ -5,7 +5,7 @@ export default class RemoveFromCart extends Component {
     const {handleRemoveFromCart, meal} = this.props
     return (
       <div className='cart-button-div'>
-        <button onClick={() => handleRemoveFromCart(meal)} className='remove-from-cart'>Remove From Cart</button>
+        <button onClick={(e) => handleRemoveFromCart(meal)} className='remove-from-cart'>Remove From Cart</button>
         <p> Qt.{meal.quantity}</p>
       </div>
     )

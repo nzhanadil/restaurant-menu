@@ -7,7 +7,7 @@ export default class CreateNewMeal extends Component {
     this.state = {
       title: '',
       category: '',
-      price: 0,
+      price: '',
       src: '',
       desc: ''
     }
@@ -24,16 +24,26 @@ export default class CreateNewMeal extends Component {
   
   handleSubmit = (e) => {
     e.preventDefault()
-    const {handleCreateNewMeal} = this.props
-    // console.log(this.state)
-    handleCreateNewMeal(this.state)
-    // console.log(this.state)
+    const {handlePost} = this.props
+    handlePost(this.state)
+    
+    this.setState({
+      title: '',
+      category: '',
+      price: '',
+      src: '',
+      desc: ''
+    })
   }
 
   render() {
     const {title, category, price, desc} = this.state;
     return (
-      <div className='create-new-meal-container'>
+    <>
+      {/* <button onClick={() => this.setState({displayForm: !displayForm})}>Create New Meal</button> */}
+
+      {true ?
+        <div className='create-new-meal-container'>
         <h2>Please, provide below information</h2>
         <form className='create-new-meal-form' onSubmit={e=> this.handleSubmit(e)}>
             <input type="text" id="title" placeholder='Title' value={title} onChange={(e) => this.setState({title: e.target.value})} required/>
@@ -48,7 +58,9 @@ export default class CreateNewMeal extends Component {
 
             <button type='submit'>Create Meal</button>
         </form>
-      </div>
+      </div> : <></>}
+      
+    </>
     )
   }
 }

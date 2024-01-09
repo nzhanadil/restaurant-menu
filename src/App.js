@@ -1,29 +1,45 @@
 import React, { Component } from 'react'
-import {data} from './data.js'
 import Search from './components/Search.jsx';
 import Categories from './components/Categories.jsx';
 import Container from './components/Container.jsx';
 import CreateNewMeal from './components/createNewMeal/CreateNewMeal.jsx';
 import './App.css'
 import './components/App.css'
-
-import Categories1 from './components/Categories1.jsx';
+import axios from 'axios';
 
 export default class App extends Component {
   constructor(){
     super();
     this.state = {
+      adminMode: false,
       categories: [],
       searchText: '',
       selectedCategory: 'all',
-      products: data,
+      products: [],
       cart: [],
       cartSize: 0
     }
   }
 
-  handleCategories = (arr) =>{
-    this.setState({categories: arr})
+  componentDidMount = async () =>{
+    this.updateProducts()
+  }
+
+  updateProducts = async () => {
+    const res = await fetch('https://restaurant-menu-w4mc.onrender.com/menu')
+    const data = await res.json()
+    this.setState({products: data})
+    this.setState({categories: ['all', ...this.getUniqueCategories(this.state.products), 'cart']})
+  }
+
+  getUniqueCategories = (data) => {
+    const array = ['all']
+    for(let arr of data){
+        if(!array.includes(arr.category))
+            array.push(arr.category)       
+    }
+    array.push('cart')
+    return array
   }
 
   setSelectedCategory = (category) => {
@@ -45,19 +61,15 @@ export default class App extends Component {
       }
     })
 
-    if(!found){
-      cart = cart.filter(el => el.id !==meal.id)
-    }
-    
+    cart = !found ? cart.filter(el => el.id !==meal.id) : cart;
     this.setState({cart: cart, cartSize: this.state.cartSize-=1})
   }
 
   handleAddToCart = (meal) => {
     meal = JSON.parse(JSON.stringify(meal));
-
     let cart = this.state.cart
 
-    const existingMeal = cart.find(el=> el.id===meal.id)
+    const existingMeal = cart.find(el => el.id===meal.id)
 
     if(existingMeal){
       existingMeal.quantity++;
@@ -69,47 +81,41 @@ export default class App extends Component {
     this.setState({cart: cart, cartSize: this.state.cartSize+=1})
   }
 
-  handleCreateNewMeal = (meal) => {
-
-    meal = JSON.parse(JSON.stringify(meal));
-
-    let products = JSON.parse(JSON.stringify(this.state.products));
-
-    console.log(this.state.products)
-    products.push(meal)
-    meal.id=meal.title;
-    this.setState({products: products})
-    console.log(meal)
+  handlePost = async (meal) => {
+    axios
+    .post('https://restaurant-menu-w4mc.onrender.com/menu', meal)
+    .then((res) => {
+      console.log(res.data.message)
+      this.updateProducts()})
+    .catch(error => console.log(error))
   }
 
-  getUniqueCategories = (data) => {
-    const array = ['all']
-    for(let arr of data){
-        if(!array.includes(arr.category))
-            array.push(arr.category)       
-    }
-    array.push('cart')
-    return array
+  handlePatch = async () => {
+
   }
 
-  componentDidMount(){
-    this.setState({categories: ['all', ...this.getUniqueCategories(this.state.products), 'cart']})
+  handleDelete = async (id) => {
+    axios
+      .delete(`https://restaurant-menu-w4mc.onrender.com/menu/${id}`)
+      .then((res) => {
+        console.log(res.data.message)
+        this.updateProducts()})
+      .catch(error => console.log(error))
   }
 
   render() {
-    const {searchText, selectedCategory, products, cartSize, categories} = this.state
+    const {searchText, selectedCategory, products, cartSize, categories, adminMode} = this.state
     return (
       <>
+        <button onClick={() => this.setState({adminMode : !adminMode})}>AM Turn {!adminMode ? 'ON' : 'OFF'}</button>
 
-        <CreateNewMeal handleCreateNewMeal={this.handleCreateNewMeal}/>
+        <CreateNewMeal handlePost={this.handlePost}/>
 
-        <h1>Restaurant Menu</h1>  
-        {/* <Categories setSelectedCategory={this.setSelectedCategory} selectedCategory={selectedCategory} products={products} cartSize={cartSize}/> */}
-        
-        <Categories1 setSelectedCategory={this.setSelectedCategory} selectedCategory={selectedCategory} categories={this.getUniqueCategories(products)} cartSize={cartSize} />
+        <h1>Restaurant Menu</h1>      
+        <Categories setSelectedCategory={this.setSelectedCategory} selectedCategory={selectedCategory} categories={this.getUniqueCategories(products)} cartSize={cartSize} />
         <Search setSearchText={this.setSearchText} searchText={searchText}/>
 
-        <Container data={this.state} handleAddToCart={this.handleAddToCart} handleRemoveFromCart={this.handleRemoveFromCart}/>
+        <Container data={this.state} handleAddToCart={this.handleAddToCart} handleRemoveFromCart={this.handleRemoveFromCart} handleDelete={this.handleDelete}/>
       </>
     )
   }

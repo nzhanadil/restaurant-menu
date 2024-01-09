@@ -63,3 +63,20 @@ button {
 .remove-from-cart:hover{
     background-color: rgb(223, 3, 3);
 }
+
+img{
+    width: 100px;
+    height: 100px;
+}
+
+.meal-input {
+    border: none;
+    width: 100%;
+    font-size: large;
+    /* font-weight: bold; */
+    color: black;
+}
+
+/* .delete-meal{
+    display: none;
+} */
