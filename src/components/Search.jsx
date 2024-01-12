@@ -1,13 +1,11 @@
-import React, { Component } from 'react'
+import React from 'react'
+import { InputGroup, Input, Button } from 'reactstrap'
 
-export default class Search extends Component {
-  render() {
-    const {setSearchText, searchText} = this.props
-    return (
-        <div className='searchBar'>
-            <input type="text" value={searchText} onChange={(e) => setSearchText(e.target.value)}/>
-            {searchText.trim() !== '' ? <button className='clear-btn' onClick={() => setSearchText('')}>x</button> : <></>}
-        </div>
-    )
-  }
+export default function Search({setSearchText, searchText}) {
+  return (
+    <InputGroup className='w-25 my-3 mx-auto'>
+      <Input placeholder="Search..."  value={searchText} onChange={(e) => setSearchText(e.target.value)}/>
+      {searchText.trim() !== '' && <Button onClick={() => setSearchText('')} color='danger'>X</Button>}
+    </InputGroup>
+  )
 }

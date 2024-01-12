@@ -6,6 +6,7 @@ import CreateNewMeal from './components/createNewMeal/CreateNewMeal.jsx';
 import './App.css'
 import './components/App.css'
 import axios from 'axios';
+import 'bootstrap/dist/css/bootstrap.min.css';
 
 export default class App extends Component {
   constructor(){
