@@ -90,13 +90,18 @@ export default class App extends Component {
     .catch(error => console.log(error))
   }
 
-  handlePatch = async () => {
-
-  }
-
   handleDelete = async (id) => {
     axios
       .delete(`https://restaurant-menu-w4mc.onrender.com/menu/${id}`)
+      .then((res) => {
+        console.log(res.data.message)
+        this.updateProducts()})
+      .catch(error => console.log(error))
+  }
+
+  handlePatch = async ({id, title, price, desc}) => {
+    axios
+      .patch(`https://restaurant-menu-w4mc.onrender.com/menu/${id}`, {title, price, desc})
       .then((res) => {
         console.log(res.data.message)
         this.updateProducts()})
@@ -109,13 +114,13 @@ export default class App extends Component {
       <>
         <button onClick={() => this.setState({adminMode : !adminMode})}>AM Turn {!adminMode ? 'ON' : 'OFF'}</button>
 
-        <CreateNewMeal handlePost={this.handlePost}/>
+        <CreateNewMeal handlePost={this.handlePost} adminMode={adminMode}/>
 
         <h1>Restaurant Menu</h1>      
         <Categories setSelectedCategory={this.setSelectedCategory} selectedCategory={selectedCategory} categories={this.getUniqueCategories(products)} cartSize={cartSize} />
         <Search setSearchText={this.setSearchText} searchText={searchText}/>
 
-        <Container data={this.state} handleAddToCart={this.handleAddToCart} handleRemoveFromCart={this.handleRemoveFromCart} handleDelete={this.handleDelete}/>
+        <Container {...this.state} handleAddToCart={this.handleAddToCart} handleRemoveFromCart={this.handleRemoveFromCart} handleDelete={this.handleDelete} handlePatch={this.handlePatch}/>
       </>
     )
   }

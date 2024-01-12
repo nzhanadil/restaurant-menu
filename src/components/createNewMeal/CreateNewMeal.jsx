@@ -37,12 +37,13 @@ export default class CreateNewMeal extends Component {
   }
 
   render() {
+    const {adminMode} = this.props
     const {title, category, price, desc} = this.state;
     return (
     <>
       {/* <button onClick={() => this.setState({displayForm: !displayForm})}>Create New Meal</button> */}
 
-      {true ?
+      {adminMode ?
         <div className='create-new-meal-container'>
         <h2>Please, provide below information</h2>
         <form className='create-new-meal-form' onSubmit={e=> this.handleSubmit(e)}>
