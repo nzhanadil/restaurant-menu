@@ -1,13 +1,13 @@
-import React, { Component } from 'react'
+import React from 'react'
+import { Button } from 'reactstrap'
 
-export default class RemoveFromCart extends Component {
-  render() {
-    const {handleRemoveFromCart, meal} = this.props
-    return (
-      <div className='cart-button-div'>
-        <button onClick={(e) => handleRemoveFromCart(meal)} className='remove-from-cart'>Remove From Cart</button>
-        <p> Qt.{meal.quantity}</p>
-      </div>
-    )
-  }
+export default function RemoveFromCart({handleRemoveFromCart, meal}) {
+  return (
+    <div className='cart-button-div'>
+      <Button onClick={(e) => handleRemoveFromCart(meal)} color='danger'>
+        <i className='fa fa-cart-arrow-down'></i>
+      </Button>
+      <p> Qt.{meal.quantity}</p>
+    </div>
+  )
 }
