@@ -2,20 +2,17 @@ import React, { Component } from 'react'
 import Search from './components/Search.jsx';
 import Categories from './components/Categories.jsx';
 import Container from './components/Container.jsx';
-import CreateNewMeal from './components/createNewMeal/CreateNewMeal.jsx';
 import './App.css'
 import './components/App.css'
 import axios from 'axios';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import 'font-awesome/css/font-awesome.min.css';
-import { DeleteModal } from './components/DeleteModal.jsx';
-import Form from './components/Form.jsx';
+
 
 export default class App extends Component {
   constructor(){
     super();
     this.state = {
-      adminMode: false,
       categories: [],
       searchText: '',
       selectedCategory: 'all',
@@ -85,7 +82,7 @@ export default class App extends Component {
     this.setState({cart: cart, cartSize: this.state.cartSize+=1})
   }
 
-  handlePost = async (meal) => {
+  handlePost = (meal) => {
     axios
     .post('https://restaurant-menu-w4mc.onrender.com/menu', meal)
     .then((res) => {
@@ -94,7 +91,7 @@ export default class App extends Component {
     .catch(error => console.log(error))
   }
 
-  handleDelete = async (id) => {
+  handleDelete = (id) => {
     axios
       .delete(`https://restaurant-menu-w4mc.onrender.com/menu/${id}`)
       .then((res) => {
@@ -103,9 +100,9 @@ export default class App extends Component {
       .catch(error => console.log(error))
   }
 
-  handlePatch = async ({id, title, price, desc}) => {
+  handlePatch = ({id, src, category, title, price, desc}) => {
     axios
-      .patch(`https://restaurant-menu-w4mc.onrender.com/menu/${id}`, {title, price, desc})
+      .patch(`https://restaurant-menu-w4mc.onrender.com/menu/${id}`, {src, category, title, price, desc})
       .then((res) => {
         console.log(res.data.message)
         this.updateProducts()})
@@ -113,20 +110,12 @@ export default class App extends Component {
   }
 
   render() {
-    const {searchText, selectedCategory, products, cartSize, categories, adminMode} = this.state
+    const {searchText, selectedCategory, products, cartSize, categories} = this.state
     return (
       <>
-        <button onClick={() => this.setState({adminMode : !adminMode})}>AM Turn {!adminMode ? 'ON' : 'OFF'}</button>
-
-        <Form />
-
-        <CreateNewMeal handlePost={this.handlePost} adminMode={adminMode}/>
-
-        <h1>Restaurant Menu</h1>
-        <DeleteModal />      
+        <h1>Restaurant Menu</h1>    
         <Categories setSelectedCategory={this.setSelectedCategory} selectedCategory={selectedCategory} categories={this.getUniqueCategories(products)} cartSize={cartSize} />
-        <Search setSearchText={this.setSearchText} searchText={searchText}/>
-  
+        <Search setSearchText={this.setSearchText} searchText={searchText} handlePost={this.handlePost}/>
         <Container {...this.state} handleAddToCart={this.handleAddToCart} handleRemoveFromCart={this.handleRemoveFromCart} handleDelete={this.handleDelete} handlePatch={this.handlePatch}/>
       </>
     )

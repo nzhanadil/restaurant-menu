@@ -1,1 +1,0 @@
-export const BASE_URL = 'https://restaurant-menu-w4mc.onrender.com/menu'

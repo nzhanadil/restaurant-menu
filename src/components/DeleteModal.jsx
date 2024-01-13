@@ -10,7 +10,7 @@ export function DeleteModal({deleteModal, toggleDelete, handleDelete, id}) {
         <ModalFooter>
           <Button color="primary" onClick={() => handleDelete(id)}>
             Delete
-          </Button>{' '}
+          </Button>
           <Button color="secondary" onClick={toggleDelete}>
             Cancel
           </Button>
