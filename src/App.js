@@ -3,7 +3,6 @@ import Search from './components/Search.jsx';
 import Categories from './components/Categories.jsx';
 import Container from './components/Container.jsx';
 import './App.css'
-import './components/App.css'
 import axios from 'axios';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import 'font-awesome/css/font-awesome.min.css';

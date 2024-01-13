@@ -47,7 +47,7 @@ export default function FormModal({modal, toggle, handleApi, meal}) {
         <ModalBody className='mx-auto'>
           <Card body color="light" style={{width: '16rem'}} className='meal-card'>
             <div className="image-upload">
-                <label htmlFor="file-input" >
+                <label htmlFor="file-input" className='w-100' >
                     <img src={src} alt={title} />
                 </label>
                 <input id="file-input" type="file" style={{display: 'none'} } onChange={(e) => handleUploadImage(e)}/>
