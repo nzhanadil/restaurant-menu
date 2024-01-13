@@ -8,6 +8,8 @@ import './components/App.css'
 import axios from 'axios';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import 'font-awesome/css/font-awesome.min.css';
+import { DeleteModal } from './components/DeleteModal.jsx';
+import Form from './components/Form.jsx';
 
 export default class App extends Component {
   constructor(){
@@ -116,12 +118,15 @@ export default class App extends Component {
       <>
         <button onClick={() => this.setState({adminMode : !adminMode})}>AM Turn {!adminMode ? 'ON' : 'OFF'}</button>
 
+        <Form />
+
         <CreateNewMeal handlePost={this.handlePost} adminMode={adminMode}/>
 
-        <h1>Restaurant Menu</h1>      
+        <h1>Restaurant Menu</h1>
+        <DeleteModal />      
         <Categories setSelectedCategory={this.setSelectedCategory} selectedCategory={selectedCategory} categories={this.getUniqueCategories(products)} cartSize={cartSize} />
         <Search setSearchText={this.setSearchText} searchText={searchText}/>
-
+  
         <Container {...this.state} handleAddToCart={this.handleAddToCart} handleRemoveFromCart={this.handleRemoveFromCart} handleDelete={this.handleDelete} handlePatch={this.handlePatch}/>
       </>
     )

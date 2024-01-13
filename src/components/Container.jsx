@@ -1,5 +1,6 @@
 import React, { Component } from 'react'
-import Meal from './meal/Meal'
+// import Meal from './meal/Meal'
+import Meal from './Meal'
 
 export default class Container extends Component {
   render() {
