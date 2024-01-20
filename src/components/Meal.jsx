@@ -17,7 +17,7 @@ export default function Meal({data, handleClick, handleDelete, handlePatch}) {
 
   return ( 
     <Card body color="light" style={{width: '16rem'}} key={id} className='meal-card'>
-        <img src={src} alt={tßitle}/>
+        <img src={src} alt={title}/>
         <CardBody>
             <DeleteModal deleteModal={deleteModal} toggleDelete={toggleDelete} handleDelete={handleDelete} id={id}/>
             <FormModal modal={patchModal} toggle={togglePatch} handleApi={handlePatch} meal={data}/>
