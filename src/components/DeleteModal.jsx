@@ -17,5 +17,5 @@ export function DeleteModal({deleteModal, toggleDelete, handleDelete, id}) {
         </ModalFooter>
       </Modal>
     </div>
-  );
+  )
 }
